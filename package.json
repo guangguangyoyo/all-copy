@@ -1,8 +1,12 @@
 {
   "name": "all-copy",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "copy all files and folders",
+  "homepage": "https://github.com/guangguangyoyo/all-copy",
   "main": "index.js",
+  "engines": {
+    "node": ">=6.9.0"
+  },
   "bin": {
     "all-copy": "src/index.js"
   },
