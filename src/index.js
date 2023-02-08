@@ -1,6 +1,18 @@
 var fs   = require('fs')
 var path = require('path')
 
+var SourcePath = process.argv[2];
+var TargetPath = process.argv[3];
+var IgnorePath = process.argv[4];
+
+
+/**
+* copy files 
+* @param {String} srcPath source directory
+* @param {String} tarPath target directory
+* @param {Function} cb callback function 
+* @return {Null} 
+**/
 var copyFile = function(srcPath, tarPath, cb) {
   var rs = fs.createReadStream(srcPath)
   rs.on('error', function(err) {
@@ -24,8 +36,7 @@ var copyFile = function(srcPath, tarPath, cb) {
   rs.pipe(ws)
 }
 
-// 复制目录及其子目录
-
+// Copy the directory and subdirectories
 var copyFolder = function(srcDir, tarDir, ignore, cb) {
   fs.readdir(srcDir, function(err, files) {
     var count = 0
@@ -47,6 +58,7 @@ var copyFolder = function(srcDir, tarDir, ignore, cb) {
 
       fs.stat(srcPath, function(err, stats) {
         if (stats.isDirectory()) {
+          // source path is directory
           console.log('mkdir', tarPath)
           fs.mkdir(tarPath, function(err) {
             if (err) {
@@ -62,15 +74,15 @@ var copyFolder = function(srcDir, tarDir, ignore, cb) {
       })
     })
 
-    //为空时直接回调
+    // 
     files.length === 0 && cb && cb()
   })
 }
-copyFolder(process.argv[2], process.argv[3], process.argv[4], function(err) {
+
+// input parameter 
+copyFolder(SourcePath, TargetPath, IgnorePath, function(err) {
   if (err) {
     console.error(err);
     return;
   }
-
-  //continue
 })
